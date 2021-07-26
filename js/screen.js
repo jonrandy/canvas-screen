@@ -1,4 +1,3 @@
-export { Screen as default }
 
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
@@ -30,8 +29,9 @@ let _init = function(
 
 
 
-
 let Screen = add_init({})
+export { Screen as default }
+
 
 function add_init(obj) {
 	obj.init = _init
