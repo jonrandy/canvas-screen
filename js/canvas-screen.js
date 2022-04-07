@@ -1,3 +1,6 @@
+/// IMPORTANT - we can write straight to imageData (use buffers into imageData.data.buffer)
+
+
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
