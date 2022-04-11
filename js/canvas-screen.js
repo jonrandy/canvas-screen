@@ -13,7 +13,9 @@ function init(
 		blur = false,
 		parent = document.body,
 		pageCount = 2,
-		background = [0, 0, 0, 255]
+		activePage = 0,
+		visiblePage = 0,
+		background = [0, 0, 0, 255],
 	}
 ) {
 
@@ -24,7 +26,9 @@ function init(
 		blur,
 		parent,
 		pageCount,
-		background
+		activePage,
+		visiblePage,
+		background,
 	}
 
 }
