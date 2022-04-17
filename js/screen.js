@@ -148,5 +148,5 @@ function isLittleEndian() {
 	let {raw, buf8, buf32} = getBuffers(8)
 	buf32[1] = 0x0a0b0c0d
 	return !(raw[4] === 0x0a && raw[5] === 0x0b && raw[6] === 0x0c &&
-    raw[7] === 0x0d)
+		raw[7] === 0x0d)
 }

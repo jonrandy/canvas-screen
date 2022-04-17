@@ -6,6 +6,9 @@ const
 	screenDataVal = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a)
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
 
+let
+	lastScreen
+
 function init(
 	[width, height] = [640, 480],
 	{
@@ -19,6 +22,9 @@ function init(
 	}
 ) {
 
+	const {canvas, context} = buildCanvas()
+	parent.appendChild(canvas)
+
 	return {
 		width,
 		height,
@@ -29,6 +35,8 @@ function init(
 		activePage,
 		visiblePage,
 		background,
+		canvas,
+		context
 	}
 
 }
@@ -54,13 +62,13 @@ function setBackground(bg, screen = lastScreen) {
 }
 
 
-function setZoom(zoom, screen = lastScreen) {
-
+function setZoom(zoomLevel, { canvas, width } = lastScreen) {
+	canvas.style.width = width * zoomlevel + 'px'
 }
 
 
-function setBlur(blur, screen = lastScreen) {
-
+function setBlur(blurState, { canvas } = lastScreen) {
+	canvas.style['image-rendering'] = blurState ? 'unset' : (IS_FIREFOX ? 'optimizespeed' : 'pixelated')
 }
 
 function getBitBuffers(arrayBuffer) {
@@ -76,7 +84,15 @@ function isLittleEndian() {
 	let {raw, buf8, buf32} = getBitBuffers(new ArrayBuffer(8))
 	buf32[1] = 0x0a0b0c0d
 	return !(raw[4] === 0x0a && raw[5] === 0x0b && raw[6] === 0x0c &&
-    raw[7] === 0x0d)
+		raw[7] === 0x0d)
+}
+
+function buildCanvas(width, height) {
+	const canvas = document.createElement('canvas')
+	canvas.width = width
+	canvas.height = height
+	const	context = canvas.getContext('2d'),
+	return { canvas, context }
 }
 
 
