@@ -47,6 +47,8 @@ function setScreen(
 	}
 
 	setBackground(background, screen)
+	setZoom(zoom, screen)
+	setBlur(blur, screen)
 	clear(screen)
 
 	lastScreen = screen
@@ -56,7 +58,10 @@ function setScreen(
 
 
 function pset(x, y, c, screen = lastScreen) {
-
+	console.log(screen.rawPageData[screen.activePage].buf32[x+y*screen.width])
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = screenDataVal(c)
+	console.log(screen.rawPageData[screen.activePage].buf32[x+y*screen.width])
+	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
 }
 
 
@@ -80,7 +85,7 @@ function setBackground(bg, screen = lastScreen) {
 
 
 function setZoom(zoomLevel, { canvas, width } = lastScreen) {
-	canvas.style.width = width * zoomlevel + 'px'
+	canvas.style.width = width * zoomLevel + 'px'
 }
 
 
