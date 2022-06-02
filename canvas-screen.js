@@ -3,13 +3,13 @@
 
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
-	screenDataVal = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a)
+	screenDataVal = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a),
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
 
 let
 	lastScreen
 
-function init(
+function setScreen(
 	[width, height] = [640, 480],
 	{
 		zoom = 1,
@@ -19,10 +19,10 @@ function init(
 		activePage = 0,
 		visiblePage = 0,
 		background = [0, 0, 0, 255],
-	}
+	} = {}
 ) {
 
-	const { canvas, context } = buildCanvas()
+	const { canvas, context } = buildCanvas(width, height)
 	parent.appendChild(canvas)
 
 	const rawPageData = []
@@ -86,8 +86,8 @@ function setBlur(blurState, { canvas } = lastScreen) {
 function getBitBuffers(arrayBuffer) {
 	return {
 		raw: arrayBuffer,
-		buf8: new Uint8ClampedArray(buf),
-		buf32: new Uint32Array(buf)
+		buf8: new Uint8ClampedArray(arrayBuffer),
+		buf32: new Uint32Array(arrayBuffer)
 	}	
 }
 
@@ -104,7 +104,7 @@ function buildCanvas(width, height) {
 	canvas.width = width
 	canvas.height = height
 	const	context = canvas.getContext('2d')
-	return { canvas, context, imageData }
+	return { canvas, context }
 }
 
 function dumpPageToScreen(pageIndex, { context, rawPageData } = lastScreen) {
@@ -113,7 +113,7 @@ function dumpPageToScreen(pageIndex, { context, rawPageData } = lastScreen) {
 
 
 export {
-	init,
+	setScreen,
 	pset,
 	usePage,
 	clear,
