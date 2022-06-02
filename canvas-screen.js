@@ -46,6 +46,9 @@ function setScreen(
 		rawPageData
 	}
 
+	setBackground(background, screen)
+	clear(screen)
+
 	lastScreen = screen
 	return screen
 
@@ -65,12 +68,14 @@ function usePage(activePage, visiblePage = lastScreen.visiblePage, screen = last
 
 
 function clear(screen = lastScreen) {
-
+	screen.rawPageData[screen.activePage].buf32.set(screen.background)
+	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
 }
 
 
 function setBackground(bg, screen = lastScreen) {
-
+	const background = new Uint32Array(screen.width * screen.height).fill(screenDataVal(bg))
+	screen.background = background
 }
 
 
