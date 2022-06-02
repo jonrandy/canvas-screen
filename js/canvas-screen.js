@@ -22,10 +22,16 @@ function init(
 	}
 ) {
 
-	const {canvas, context} = buildCanvas()
+	const { canvas, context } = buildCanvas()
 	parent.appendChild(canvas)
 
-	return {
+	const rawPageData = []
+	for (let i=0; i<pageCount; i++) {
+		const imageData = context.getImageData(0, 0, width, height)
+		rawPageData[i] = { imageData, ...getBitBuffers(imageData.data.buffer) }
+	}
+
+	const screen = {
 		width,
 		height,
 		zoom,
@@ -36,8 +42,12 @@ function init(
 		visiblePage,
 		background,
 		canvas,
-		context
+		context,
+		rawPageData
 	}
+
+	lastScreen = screen
+	return screen
 
 }
 
@@ -48,7 +58,9 @@ function pset(x, y, c, screen = lastScreen) {
 
 
 function usePage(activePage, visiblePage = lastScreen.visiblePage, screen = lastScreen) {
-
+	if (screen.visiblePage != visiblePage) dumpPageToScreen(visiblePage, screen)
+	screen.activePage = activePage
+	screen.visiblePage = visiblePage
 }
 
 
@@ -91,8 +103,12 @@ function buildCanvas(width, height) {
 	const canvas = document.createElement('canvas')
 	canvas.width = width
 	canvas.height = height
-	const	context = canvas.getContext('2d'),
-	return { canvas, context }
+	const	context = canvas.getContext('2d')
+	return { canvas, context, imageData }
+}
+
+function dumpPageToScreen(pageIndex, { context, rawPageData } = lastScreen) {
+	context.putImageData(rawPageData[pageIndex].imageData, 0, 0)
 }
 
 
