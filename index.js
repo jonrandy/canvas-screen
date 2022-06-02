@@ -15,8 +15,8 @@ setScreen([320,240], {
 	zoom: 3
 })
 
-for (let i=0; i<30; i++) {
-	let x = 155 + ~~(Math.random()*10)
-	let y = 115 + ~~(Math.random()*10)
+for (let i=0; i<6000; i++) {
+	let x = 0 + ~~(Math.random()*320)
+	let y = 0 + ~~(Math.random()*240)
 	pset(x, y, [255, 255, 255])
 }
