@@ -118,6 +118,8 @@ function dumpPageToScreen(pageIndex, { context, rawPageData } = lastScreen) {
 	context.putImageData(rawPageData[pageIndex].imageData, 0, 0)
 }
 
+const vsync = () => new Promise(window.requestAnimationFrame)
+
 
 export {
 	setScreen,
@@ -126,5 +128,6 @@ export {
 	clear,
 	setBackground,
 	setZoom,
-	setBlur
+	setBlur,
+	vsync
 }
