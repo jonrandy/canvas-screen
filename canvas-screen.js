@@ -7,7 +7,7 @@ const
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
 
 let
-	lastScreen
+	lastScreen = {}
 
 function setScreen(
 	[width, height] = [640, 480],
@@ -34,13 +34,8 @@ function setScreen(
 	const screen = {
 		width,
 		height,
-		zoom,
-		blur,
 		parent,
 		pageCount,
-		activePage,
-		visiblePage,
-		background,
 		canvas,
 		context,
 		rawPageData
@@ -49,9 +44,11 @@ function setScreen(
 	setBackground(background, screen)
 	setZoom(zoom, screen)
 	setBlur(blur, screen)
+	usePage(activePage, visiblePage, screen)
 	clear(screen)
 
 	lastScreen = screen
+
 	return screen
 
 }
@@ -82,13 +79,15 @@ function setBackground(bg, screen = lastScreen) {
 }
 
 
-function setZoom(zoomLevel, { canvas, width } = lastScreen) {
-	canvas.style.width = width * zoomLevel + 'px'
+function setZoom(zoomLevel, screen = lastScreen) {
+	screen.zoom = zoomLevel
+	screen.canvas.style.width = screen.width * zoomLevel + 'px'
 }
 
 
-function setBlur(blurState, { canvas } = lastScreen) {
-	canvas.style['image-rendering'] = blurState ? 'unset' : (IS_FIREFOX ? 'optimizespeed' : 'pixelated')
+function setBlur(blurState, screen = lastScreen) {
+	screen.blur = blurState
+	screen.canvas.style['image-rendering'] = blurState ? 'unset' : (IS_FIREFOX ? 'optimizespeed' : 'pixelated')
 }
 
 function getBitBuffers(arrayBuffer) {
