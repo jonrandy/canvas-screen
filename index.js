@@ -9,19 +9,17 @@ import {
 } from './canvas-screen.js'
 
 
-	setScreen([320,240], {
-		background: [0, 0, 255],
-		zoom: 3,
-		activePage: 1
-	})
+setScreen([320,240], {
+	background: [0, 0, 255],
+	zoom: 3,
+	activePage: 1
+})
 
-		const vsync = () => new Promise(window.requestAnimationFrame)
+const vsync = () => new Promise(window.requestAnimationFrame)
 
-		window.usePage = usePage
+let a=0, b=1;
 
-let a=0, b=1
-
-const jon = async () => {
+(async ()=>{
 
 	for(let n=0; n<250; n++) {
 
@@ -42,8 +40,7 @@ const jon = async () => {
 
 	}
 
-}
+})()
 
-jon()
 
 
