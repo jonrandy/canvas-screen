@@ -8,18 +8,42 @@ import {
 	setBlur
 } from './canvas-screen.js'
 
-setScreen([320,240], {
-	background: [0, 0, 255],
-	zoom: 3,
-	activePage: 1
-})
+
+	setScreen([320,240], {
+		background: [0, 0, 255],
+		zoom: 3,
+		activePage: 1
+	})
+
+		const vsync = () => new Promise(window.requestAnimationFrame)
+
+		window.usePage = usePage
+
+let a=0, b=1
+
+const jon = async () => {
+
+	for(let n=0; n<250; n++) {
+
+		for (let i=0; i<10000; i++) {
+			let x = 0 + ~~(Math.random()*320)
+			let y = 0 + ~~(Math.random()*240)
+			pset(x, y, [255, 255, 255])
+		}
 
 
-for (let i=0; i<24000; i++) {
-	let x = 0 + ~~(Math.random()*320)
-	let y = 0 + ~~(Math.random()*240)
-	pset(x, y, [255, 255, 255])
+		await vsync()
+
+		usePage(a,b);
+
+		[a,b] = [b,a]
+
+		clear()
+
+	}
+
 }
 
+jon()
 
-usePage(1,1)
+
