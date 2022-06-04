@@ -1,0 +1,29 @@
+{
+  "name": "canvas-screen",
+  "version": "0.0.1",
+  "description": "Canvas wrapper for Screen-like graphics use",
+  "main": "js/canvas-screen.js",
+  "type": "module",
+  "module": "js/canvas-screen.js",
+  "sideEffects": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/jonrandy/canvas-screen.git"
+  },
+  "keywords": [
+    "canvas",
+    "screen",
+    "js",
+    "javascript",
+    "screen"
+  ],
+  "author": "Jon Randy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/jonrandy/canvas-screen/issues"
+  },
+  "homepage": "https://gitlab.com/jonrandy/canvas-screen#readme"
+}

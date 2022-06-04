@@ -1,58 +1,51 @@
-import Screen from './js/screen.js'
-
-// let a=Screen.init()
-
-// console.log(Screen)
+import * as s from './canvas-screen.js'
 
 
-// a.zoom = 2
+const wd = 320, ht = 240
 
-// console.log(a)
-let x,y,a=255,bl=0,c=0;
-let S1, S2;
-
-
-S1 = Screen.init([100,100], {
-	zoom:4,
-	doubleBuffer:false,
-	blur:true
+s.open([wd, ht], {
+	background: [0, 0, 255],
+	zoom: 3,
+	autoRefresh: false
 })
 
-S2 = Screen.init([320,240], {
-	zoom:2,
-	doubleBuffer:true,
-	background:[0,0,0,218]
-})
+let a=0, b=1
 
+let line = new Uint32Array(wd)
 
-document.onclick = function() {
-	S1.parent = document.getElementById('jon')
-	S1.doubleBuffer = true
-	S1.refresh()
+const bar = []
+for (let j=1;j<=8;j++) {
+	bar.push(s.pixelValue([j*4, j*0, j*11]))
 }
-
-function d(){
-
-	S2.clear()
-	S2.background = [c=(c+1)%256,0,0,218]
-
-	bl=(bl+1)%2
+let black = s.pixelValue([0,0,0])
 
 
-	for(let i=0;i<320;i++) {
-		x=Math.random()*320
-		y=Math.random()*240
-		//a=i & 255
-		S2.pset([x, y], [a,a,a,128])
-		S2.pset([i, i*0.75], [0,0,255, 218])
-		x=Math.random()*100
-		y=Math.random()*100
-		S1.pset([x, y], bl ?  [255,255,255] : [0,0,0])
+
+let buffer = s.pixelBuffer()
+let x, ang, ang2, ang3, mul
+
+;
+(async ()=>{
+
+
+	for(let n=0; n<2500; n++) {
+
+		line.fill(black)
+
+		for (let i=0; i<ht; i++) {
+			ang = n*2+i*2
+			ang2 = n*2 - i
+			ang3 = (n+180)*4-i*3
+			mul = 40 + ~~(Math.sin((ang2+ang3)/180*3.142)*40)
+			x = ~~(160 + (Math.sin(ang/180*3.142)*mul) + (Math.sin(ang3/180*3.142)*40))
+
+			line.set(bar, x)
+			buffer.set(line, (wd*i))
+		}
+
+		await s.vsync()
+		s.refresh()	
+
 	}
 
-	S2.refresh()
-
-}
-
-window.setInterval(d,20)
-
+})()
