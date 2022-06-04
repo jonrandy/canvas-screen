@@ -3,22 +3,23 @@
 
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
-	screenDataVal = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a),
+	pixelValue = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a),
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
 
 let
 	lastScreen = {}
 
-function setScreen(
+function open(
 	[width, height] = [640, 480],
 	{
 		zoom = 1,
 		blur = false,
 		parent = document.body,
-		pageCount = 2,
+		pageCount = 1,
 		activePage = 0,
 		visiblePage = 0,
 		background = [0, 0, 0, 255],
+		autoRefresh = true
 	} = {}
 ) {
 
@@ -38,7 +39,8 @@ function setScreen(
 		pageCount,
 		canvas,
 		context,
-		rawPageData
+		rawPageData,
+		autoRefresh
 	}
 
 	setBackground(background, screen)
@@ -53,10 +55,14 @@ function setScreen(
 
 }
 
+function refresh(screen = lastScreen) {
+	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
+}
+
 
 function pset(x, y, c, screen = lastScreen) {
-	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = screenDataVal(c)
-	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = pixelValue(c)
+	screen.autoRefresh && refresh(screen)
 }
 
 
@@ -69,12 +75,12 @@ function usePage(activePage, visiblePage = lastScreen.visiblePage, screen = last
 
 function clear(screen = lastScreen) {
 	screen.rawPageData[screen.activePage].buf32.set(screen.background)
-	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
+	screen.autoRefresh && refresh(screen)
 }
 
 
 function setBackground(bg, screen = lastScreen) {
-	const background = new Uint32Array(screen.width * screen.height).fill(screenDataVal(bg))
+	const background = new Uint32Array(screen.width * screen.height).fill(pixelValue(bg))
 	screen.background = background
 }
 
@@ -118,16 +124,23 @@ function dumpPageToScreen(pageIndex, { context, rawPageData } = lastScreen) {
 	context.putImageData(rawPageData[pageIndex].imageData, 0, 0)
 }
 
+function pixelBuffer({rawPageData, activePage} = lastScreen) {
+	return rawPageData[activePage].buf32
+}
+
 const vsync = () => new Promise(window.requestAnimationFrame)
 
 
 export {
-	setScreen,
+	open,
 	pset,
 	usePage,
 	clear,
 	setBackground,
 	setZoom,
 	setBlur,
-	vsync
+	vsync,
+	refresh,
+	pixelBuffer,
+	pixelValue
 }
