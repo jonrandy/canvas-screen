@@ -1,7 +1,7 @@
 {
   "name": "canvas-screen",
   "version": "0.0.1",
-  "description": "Canvas wrapper for Screen-like graphics use",
+  "description": "Canvas library for Screen-like pixel graphics use",
   "main": "js/canvas-screen.js",
   "type": "module",
   "module": "js/canvas-screen.js",
@@ -18,7 +18,8 @@
     "screen",
     "js",
     "javascript",
-    "screen"
+    "screen",
+    "pixel"
   ],
   "author": "Jon Randy",
   "license": "MIT",
