@@ -1,10 +1,10 @@
 {
   "name": "canvas-screen",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Canvas library for Screen-like pixel graphics use",
-  "main": "js/canvas-screen.js",
+  "main": "canvas-screen.js",
   "type": "module",
-  "module": "js/canvas-screen.js",
+  "module": "canvas-screen.js",
   "sideEffects": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
