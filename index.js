@@ -1,15 +1,14 @@
 import * as s from './canvas-screen.js'
 
-
 const wd = 320, ht = 240
 
-s.open([wd, ht], {
-	background: [0, 0, 255],
+s.open({
+	width: wd,
+	height: ht,
+	background: [0, 0, 0],
 	zoom: 3,
 	autoRefresh: false
 })
-
-let a=0, b=1
 
 let line = new Uint32Array(wd)
 
@@ -25,7 +24,7 @@ let black = s.pixelValue([0,0,0])
 let buffer = s.pixelBuffer()
 let x,x2, ang, ang2, ang3, mul
 
-;
+
 (async ()=>{
 
 
@@ -37,7 +36,7 @@ let x,x2, ang, ang2, ang3, mul
 			ang = n*2+i
 			ang2 = n*2 - i
 			ang3 = (n+180)*4-i*3
-			mul = 40 + ~~(Math.sin((ang2+ang3)/180*3.142)*40)
+			mul = 40 + (Math.sin((ang2+ang3)/180*3.142)*40)
 			x = ~~(160 + (Math.sin(ang/180*3.142)*mul) + (Math.sin(ang3/180*3.142)*40))
 			x2 = ~~(160 + (Math.sin((ang2+x)/180*3.142)*40) + (Math.sin(ang2*2/180*3.142)*40))
 

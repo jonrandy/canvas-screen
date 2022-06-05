@@ -3,15 +3,17 @@
 
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
+	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0,
 	pixelValue = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a),
-	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
+	rgbaValue = IS_LITTLE_ENDIAN ? pv => [pv & 255, pv>>8 & 255, pv>>16 & 255, pv>>24 & 255] : pv => [pv>>24 & 255, pv>>16 & 255, pv>>8 & 255, pv & 255]
 
 let
 	lastScreen = {}
 
 function open(
-	[width, height] = [640, 480],
 	{
+		width = 640,
+		height = 480,
 		zoom = 1,
 		blur = false,
 		parent = document.body,
@@ -28,7 +30,7 @@ function open(
 
 	const rawPageData = []
 	for (let i=0; i<pageCount; i++) {
-		const imageData = context.getImageData(0, 0, width, height)
+		const imageData = context.createImageData(width, height)
 		rawPageData[i] = { imageData, ...getBitBuffers(imageData.data.buffer) }
 	}
 
@@ -63,6 +65,11 @@ function refresh(screen = lastScreen) {
 function pset(x, y, c, screen = lastScreen) {
 	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = pixelValue(c)
 	screen.autoRefresh && refresh(screen)
+}
+
+
+function pget(x, y, screen = lastScreen) {
+	return screen.rawPageData[screen.activePage].buf32[x+y*screen.width]
 }
 
 
@@ -106,7 +113,7 @@ function getBitBuffers(arrayBuffer) {
 
 function isLittleEndian() {
 	// Determine whether Uint32 is little - or big-endian.
-	let {raw, buf8, buf32} = getBitBuffers(new ArrayBuffer(8))
+	let {raw, buf32} = getBitBuffers(new ArrayBuffer(8))
 	buf32[1] = 0x0a0b0c0d
 	return !(raw[4] === 0x0a && raw[5] === 0x0b && raw[6] === 0x0c &&
 		raw[7] === 0x0d)
@@ -134,6 +141,7 @@ const vsync = () => new Promise(window.requestAnimationFrame)
 export {
 	open,
 	pset,
+	pget,
 	usePage,
 	clear,
 	setBackground,
@@ -142,5 +150,6 @@ export {
 	vsync,
 	refresh,
 	pixelBuffer,
-	pixelValue
+	pixelValue,
+	rgbaValue
 }
