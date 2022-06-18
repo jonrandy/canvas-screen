@@ -24,7 +24,7 @@ let white = [255,255,255]
 
 let buffer = s.pixelBuffer()
 let x,x2, ang, ang2, ang3, mul
-let i, n = 0
+let n = 0
 
 ;(async ()=>{
 
@@ -44,9 +44,10 @@ let i, n = 0
 			line.set(bar, x)
 			line.set(barb, x2)
 			buffer.set(line, (wd*i))
+
 		}
 
-		s.line(160, 100, ~~(160+80*Math.cos(n*3/180*pi)), ~~(100+80*Math.sin(n*3/180*pi)), white)
+		s.line(x, x2, s.mouseX(), s.mouseY(), white)
 
 		n = (n+1)%360
 
