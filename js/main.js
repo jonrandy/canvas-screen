@@ -66,8 +66,7 @@ function setupInputEvents(canvas, screen) {
 	canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
 }
 
-const mouseX = (screen = lastScreen) => screen.mouseX
-const mouseY = (screen = lastScreen) => screen.mouseY
+const getMouse = (screen = lastScreen) => [screen.mouseX, screen.mouseY]
 
 function setDefaultScreen(screen) {
 	lastScreen = screen
@@ -170,6 +169,5 @@ export {
 	rgbaValue,
 	pset,
 	pget,
-	mouseX,
-	mouseY
+	getMouse
 }

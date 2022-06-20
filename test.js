@@ -24,6 +24,7 @@ let white = [255,255,255]
 
 let buffer = s.pixelBuffer()
 let x,x2, ang, ang2, ang3, mul
+let mx, my
 let n = 0
 
 ;(async ()=>{
@@ -47,7 +48,8 @@ let n = 0
 
 		}
 
-		s.line(x, x2, s.mouseX(), s.mouseY(), white)
+		[mx, my] = s.getMouse()
+		s.line(x, x2, mx, my, white)
 
 		n = (n+1)%360
 
@@ -57,3 +59,9 @@ let n = 0
 	}
 
 })()
+
+
+// import rn from "https://cdn.skypack.dev/seedrandom"
+
+// let rnd = new rn.alea('poop')
+// console.log(rnd())
