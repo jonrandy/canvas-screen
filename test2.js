@@ -20,7 +20,8 @@ const
 
 let p, x, y, rx, ry, bx, by, gx, gy, mx=0, my=0
 let r, g, b
-let ang
+let ix, iy, ox, oy, ex, ey
+let ang, ang2, ang3
 
 atob(mapCompressed).split(String.fromCharCode(0)).forEach(([...c])=>{ c.forEach(i=>bit[p=i.charCodeAt(0)]=1-bit[p]), worldMap.push([...bit]) })
 for(y=0;y<124;y++) worldMap.push(Array(mapWidth).fill(0))
@@ -31,26 +32,40 @@ for(y=0;y<124;y++) worldMap.push(Array(mapWidth).fill(0))
 
 	for(p=0;p<1000000;p++) { 
 
-		ang = (p*20) & 1023
+		ang = (p*15) & 1023
+		ang2 = (p*1) & 1023
+		ang3 = (p*-3) & 1023
 
-		// mx = Math.cos(~~ang/64) * 60
-		// my = Math.sin(~~ang/64) * 30
 		mx = (cosI[ang] * 60)
 		my = (sinI[ang] * 60)
+
+		ix = cosI[ang2]
+		iy = sinI[ang2]
+
+		ex = cosI[ang3]
+		ey = sinI[ang3]
 
 		for(y=0;y<ht;y++) {
 			for(x=0;x<wd;x++) {
 
-				rx = x+wd*2-mx 
-				ry = y+ht*2-my 
-				r = worldMap[(~~ry) &127][(~~rx) &255] * 255
+				rx = x+wd*2//-mx 
+				ry = y+ht*2//-my
 
-				gx = x+wd*2-mx*1.1 
-				gy = y+ht*2-my*1.1 
-				g = worldMap[(~~gy) &127][(~~gx) &255] * 255
+				ox = (rx*ix + ry*-iy) 
+				oy = (rx*iy + ry*ix)
 
-				bx = x+wd*2-mx*1.2
-				by = y+ht*2-my *1.2
+				r = worldMap[(~~oy) &127][(~~ox) &255] * 255
+
+				gx = x//+wd*2-mx*1.1 
+				gy = y//+ht*2-my*1.1 
+
+				ox = (gx*ex + gy*-ey) 
+				oy = (gx*ey + gy*ex)
+
+				g = worldMap[(~~oy) &127][(~~ox) &255] * 255
+
+				bx = x+wd*2-mx//*1.2
+				by = y+ht*2-my //*1.2
 				b = worldMap[(~~by) &127][(~~bx) &255] * 255
 
 				s.pset(x, y, [r, g, b])
