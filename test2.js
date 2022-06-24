@@ -1,7 +1,7 @@
 import * as s from 'canvas-screen'
 import { sinI, cosI } from 'trigTable'
 
-const wd = 320, ht = 240
+const wd = 256, ht = 192
 
 s.open({
 	width: wd,
