@@ -1,4 +1,4 @@
-import * as s from './canvas-screen.js'
+import * as s from 'canvas-screen'
 
 const wd = 320, ht = 240
 

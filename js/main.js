@@ -1,6 +1,3 @@
-/// IMPORTANT - we can write straight to imageData (use buffers into imageData.data.buffer)
-
-
 const
 	IS_LITTLE_ENDIAN = isLittleEndian(),
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0,
@@ -63,7 +60,7 @@ function open(
 
 
 function setupInputEvents(canvas, screen) {
-	canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
+	//canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
 }
 
 const getMouse = (screen = lastScreen) => [screen.mouseX, screen.mouseY]
