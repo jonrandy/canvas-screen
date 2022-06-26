@@ -1,5 +1,5 @@
 import * as s from 'canvas-screen'
-import { sinI, cosI } from 'trigTable'
+import { sinT, cosT } from 'trigTable'
 
 const wd = 256, ht = 192
 
@@ -36,14 +36,14 @@ for(y=0;y<124;y++) worldMap.push(Array(mapWidth).fill(0))
 		ang2 = (p*1) & 1023
 		ang3 = (p*-3) & 1023
 
-		mx = (cosI[ang] * 60)
-		my = (sinI[ang] * 60)
+		mx = (cosT[ang] * 60)
+		my = (sinT[ang] * 60)
 
-		ix = cosI[ang2]
-		iy = sinI[ang2]
+		ix = cosT[ang2]
+		iy = sinT[ang2]
 
-		ex = cosI[ang3]
-		ey = sinI[ang3]
+		ex = cosT[ang3]
+		ey = sinT[ang3]
 
 		for(y=0;y<ht;y++) {
 			for(x=0;x<wd;x++) {
