@@ -1,5 +1,8 @@
 import * as s from 'canvas-screen'
 import { sinT, cosT } from 'trigTable'
+import * as rand from 'random'
+
+window.rr = rand
 
 const wd = 256, ht = 192
 
@@ -24,7 +27,7 @@ let ix, iy, ox, oy, ex, ey
 let ang, ang2, ang3
 
 atob(mapCompressed).split(String.fromCharCode(0)).forEach(([...c])=>{ c.forEach(i=>bit[p=i.charCodeAt(0)]=1-bit[p]), worldMap.push([...bit]) })
-for(y=0;y<124;y++) worldMap.push(Array(mapWidth).fill(0))
+for(y=0;y<mapHeight;y++) worldMap.push(Array(mapWidth).fill(0))
 
 
 
