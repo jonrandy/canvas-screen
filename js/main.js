@@ -60,7 +60,7 @@ function open(
 
 
 function setupInputEvents(canvas, screen) {
-	//canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
+	canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
 }
 
 const getMouse = (screen = lastScreen) => [screen.mouseX, screen.mouseY]
@@ -150,6 +150,8 @@ function pixelBuffer({rawPageData, activePage} = lastScreen) {
 
 const vsync = () => new Promise(window.requestAnimationFrame)
 
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+
 
 export {
 	setDefaultScreen,
@@ -166,5 +168,6 @@ export {
 	rgbaValue,
 	pset,
 	pget,
-	getMouse
+	getMouse,
+	clamp
 }
