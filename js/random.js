@@ -1,7 +1,7 @@
 export function randomizer(seed = +(new Date())) {
 
 	let
-		mash = Mash(),
+		mash = makeMash(),
 		c = 1,
 		s = [...'   '].map(mash)
 
@@ -24,7 +24,7 @@ export let rnd = randomizer()
 
 export const randomize = (seed=undefined) => rnd = randomizer(seed)
 
-function Mash() {
+function makeMash() {
 	let n = 0xefc8249d
 	const mash = function (data) {
 		data = String(data);

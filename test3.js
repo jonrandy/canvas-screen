@@ -3,7 +3,7 @@ import { sinT, cosT } from 'trigTable'
 import {randomize, rnd} from 'random'
 
 
-const wd = 161, ht = 160, white = [0, 0, 205]
+const wd = 161, ht = 160, blue = [0, 0, 205]
 
 s.open({
 	width: wd,
@@ -35,7 +35,7 @@ const mazeWidth = 20, mazeCellSize = 4
 			y=~~(i/mazeWidth) * mazeCellSize*2
 
 
-			s.line(x+mazeCellSize-mx, y+mazeCellSize+my, x+mazeCellSize+mx, y+mazeCellSize-my, white)
+			s.line(x+mazeCellSize-mx, y+mazeCellSize+my, x+mazeCellSize+mx, y+mazeCellSize-my, blue)
 
 		}
 

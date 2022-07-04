@@ -1,8 +1,7 @@
+import { rgbaValue, rgbaSplit } from './colour.js'
+
 const
-	IS_LITTLE_ENDIAN = isLittleEndian(),
-	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0,
-	pixelValue = IS_LITTLE_ENDIAN ? ([r, g, b, a=255]) => ((a<<24) | (b<<16) | (g<<8) | r) :	([r, g, b, a=255]) => ((r<<24) | (g<<16) | (b<<8) | a),
-	rgbaValue = IS_LITTLE_ENDIAN ? pv => [pv & 255, pv>>8 & 255, pv>>16 & 255, pv>>24 & 255] : pv => [pv>>24 & 255, pv>>16 & 255, pv>>8 & 255, pv & 255]
+	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
 
 let
 	lastScreen = {}
@@ -76,7 +75,7 @@ function refresh(screen = lastScreen) {
 
 
 function pset(x, y, c, screen = lastScreen) {
-	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = pixelValue(c)
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = rgbaValue(c)
 	screen.autoRefresh && refresh(screen)
 }
 
@@ -100,7 +99,7 @@ function clear(screen = lastScreen) {
 
 
 function setBackground(bg, screen = lastScreen) {
-	const background = new Uint32Array(screen.width * screen.height).fill(pixelValue(bg))
+	const background = new Uint32Array(screen.width * screen.height).fill(rgbaValue(bg))
 	screen.background = background
 }
 
@@ -122,14 +121,6 @@ function getBitBuffers(arrayBuffer) {
 		buf8: new Uint8ClampedArray(arrayBuffer),
 		buf32: new Uint32Array(arrayBuffer)
 	}	
-}
-
-function isLittleEndian() {
-	// Determine whether Uint32 is little - or big-endian.
-	let {raw, buf32} = getBitBuffers(new ArrayBuffer(8))
-	buf32[1] = 0x0a0b0c0d
-	return !(raw[4] === 0x0a && raw[5] === 0x0b && raw[6] === 0x0c &&
-		raw[7] === 0x0d)
 }
 
 function buildCanvas(width, height) {
@@ -164,10 +155,11 @@ export {
 	vsync,
 	refresh,
 	pixelBuffer,
-	pixelValue,
 	rgbaValue,
+	rgbaSplit,
 	pset,
 	pget,
 	getMouse,
-	clamp
+	clamp,
+	getBitBuffers
 }

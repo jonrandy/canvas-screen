@@ -14,10 +14,10 @@ let line = new Uint32Array(wd)
 
 const bar = [], barb=[], pi = 3.142
 for (let j=1;j<=8;j++) {
-	bar.push(s.pixelValue([j*4, j*0, j*11]))
-	barb.push(s.pixelValue([j*0, j*11, j*4]))
+	bar.push(s.rgbaValue([j*4, j*0, j*11]))
+	barb.push(s.rgbaValue([j*0, j*11, j*4]))
 }
-let black = s.pixelValue([0,0,0])
+let black = s.rgbaValue([0,0,0])
 let white = [255,255,255]
 
 
