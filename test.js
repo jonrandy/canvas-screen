@@ -1,5 +1,6 @@
 import * as s from 'canvas-screen'
 
+
 const wd = 320, ht = 240
 
 s.open({
