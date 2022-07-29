@@ -1,4 +1,4 @@
-import { rgbaValue, rgbaSplit } from './colour.js'
+import { rgbaValue, rgbaSplit, PALETTES, usePalette } from './colour.js'
 
 const
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
@@ -17,7 +17,9 @@ function open(
 		activePage = 0,
 		visiblePage = 0,
 		background = [0, 0, 0, 255],
-		autoRefresh = true
+		autoRefresh = true,
+		indexedPalette = true,
+		palette = PALETTES['default']  
 	} = {}
 ) {
 
@@ -39,19 +41,22 @@ function open(
 		context,
 		rawPageData,
 		autoRefresh,
+		indexedPalette,
 		mouseX: 0,
 		mouseY: 0
 	}
 
-	setupInputEvents(canvas, screen)
-
-	setBackground(background, screen)
-	setZoom(zoom, screen)
-	setBlur(blur, screen)
-	usePage(activePage, visiblePage, screen)
-	clear(screen)
-
 	setDefaultScreen(screen)
+
+
+	setupInputEvents(canvas, screen)
+	usePalette(palette, {screen})
+	setBackground(background, {screen})
+	setZoom(zoom, {screen})
+	setBlur(blur, {screen})
+	usePage(activePage, visiblePage, {screen})
+	clear({screen})
+
 
 	return screen
 
@@ -62,55 +67,55 @@ function setupInputEvents(canvas, screen) {
 	canvas.addEventListener("mousemove", e => [screen.mouseX, screen.mouseY] = [~~(e.offsetX/screen.zoom), ~~(e.offsetY/screen.zoom)])
 }
 
-const getMouse = (screen = lastScreen) => [screen.mouseX, screen.mouseY]
+const getMouse = ({screen=lastScreen} = {}) => [screen.mouseX, screen.mouseY]
 
 function setDefaultScreen(screen) {
 	lastScreen = screen
 }
 
 
-function refresh(screen = lastScreen) {
+function refresh({screen=lastScreen} = {}) {
 	if (screen.activePage == screen.visiblePage) dumpPageToScreen(screen.activePage, screen)
 }
 
 
-function pset(x, y, c, screen = lastScreen) {
-	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = rgbaValue(c)
+function pset(x, y, c, {screen=lastScreen} = {}) {
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = screen.indexedPalette ? screen.palette[c] : c
 	screen.autoRefresh && refresh(screen)
 }
 
 
-function pget(x, y, screen = lastScreen) {
+function pget(x, y, {screen=lastScreen} = {}) {
 	return screen.rawPageData[screen.activePage].buf32[x+y*screen.width]
 }
 
 
-function usePage(activePage, visiblePage = lastScreen.visiblePage, screen = lastScreen) {
+function usePage(activePage, visiblePage = lastScreen.visiblePage, {screen=lastScreen} = {}) {
 	if (screen.visiblePage != visiblePage) dumpPageToScreen(visiblePage, screen)
 	screen.activePage = activePage
 	screen.visiblePage = visiblePage
 }
 
 
-function clear(screen = lastScreen) {
+function clear({screen=lastScreen} = {}) {
 	screen.rawPageData[screen.activePage].buf32.set(screen.background)
 	screen.autoRefresh && refresh(screen)
 }
 
 
-function setBackground(bg, screen = lastScreen) {
-	const background = new Uint32Array(screen.width * screen.height).fill(rgbaValue(bg))
+function setBackground(bg, {screen=lastScreen} = {}) {
+	const background = new Uint32Array(screen.width * screen.height).fill(screen.indexedPalette ? screen.palette[bg] : bg)
 	screen.background = background
 }
 
 
-function setZoom(zoomLevel, screen = lastScreen) {
+function setZoom(zoomLevel, {screen=lastScreen} = {}) {
 	screen.zoom = zoomLevel
 	screen.canvas.style.width = screen.width * zoomLevel + 'px'
 }
 
 
-function setBlur(blurState, screen = lastScreen) {
+function setBlur(blurState, {screen=lastScreen} = {}) {
 	screen.blur = blurState
 	screen.canvas.style['image-rendering'] = blurState ? 'unset' : (IS_FIREFOX ? 'optimizespeed' : 'pixelated')
 }
@@ -161,5 +166,6 @@ export {
 	pget,
 	getMouse,
 	clamp,
-	getBitBuffers
+	getBitBuffers,
+	lastScreen as defaultScreen,
 }

@@ -8,7 +8,7 @@ s.open({
 	height: ht,
 	background: [0, 0, 0],
 	zoom: 3,
-	autoRefresh: false
+	autoRefresh: false,
 })
 
 let line = new Uint32Array(wd)
@@ -50,7 +50,7 @@ let n = 0
 		}
 
 		[mx, my] = s.getMouse()
-		s.line(x, x2, mx, my, white)
+		s.line(x, x2, mx, my, 15)
 
 		n = (n+1)%360
 
@@ -61,8 +61,3 @@ let n = 0
 
 })()
 
-
-// import rn from "https://cdn.skypack.dev/seedrandom"
-
-// let rnd = new rn.alea('poop')
-// console.log(rnd())

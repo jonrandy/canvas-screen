@@ -12,7 +12,6 @@ for (i = 0; i < steps; i++) {
 	cosT[i] = Math.cos(i*step) * multiplier
 }
 
-
 export {
 	sinT,
 	cosT

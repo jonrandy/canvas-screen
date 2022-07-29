@@ -11,7 +11,7 @@ s.open({
 	height: ht,
 	background: [0, 0, 0],
 	zoom: 2,
-	autoRefresh: false
+	autoRefresh: false,
 })
 
 const
@@ -28,6 +28,17 @@ let ang, ang2, ang3
 
 atob(mapCompressed).split(String.fromCharCode(0)).forEach(([...c])=>{ c.forEach(i=>bit[p=i.charCodeAt(0)]=1-bit[p]), worldMap.push([...bit]) })
 for(y=0;y<mapHeight;y++) worldMap.push(Array(mapWidth).fill(0))
+
+s.usePalette([
+	[0, 0, 0],
+	[0, 0, 255],
+	[0,255,0],
+	[0,255,255],
+	[255, 0, 0],
+	[255, 0, 255],
+	[255,255,0],
+	[255,255,255],
+].map(s.rgbaValue))
 
 
 
@@ -51,27 +62,27 @@ for(y=0;y<mapHeight;y++) worldMap.push(Array(mapWidth).fill(0))
 		for(y=0;y<ht;y++) {
 			for(x=0;x<wd;x++) {
 
-				rx = x+wd*2//-mx 
-				ry = y+ht*2//-my
+				rx = x+wd*2
+				ry = y+ht*2
 
 				ox = (rx*ix + ry*-iy) 
 				oy = (rx*iy + ry*ix)
 
-				r = worldMap[(~~oy) &127][(~~ox) &255] * 255
+				r = worldMap[(~~oy) &127][(~~ox) &255]
 
-				gx = x//+wd*2-mx*1.1 
-				gy = y//+ht*2-my*1.1 
+				gx = x
+				gy = y
 
 				ox = (gx*ex + gy*-ey) 
 				oy = (gx*ey + gy*ex)
 
-				g = worldMap[(~~oy) &127][(~~ox) &255] * 255
+				g = worldMap[(~~oy) &127][(~~ox) &255]
 
 				bx = x+wd*2-mx//*1.2
 				by = y+ht*2-my //*1.2
-				b = worldMap[(~~by) &127][(~~bx) &255] * 255
+				b = worldMap[(~~by) &127][(~~bx) &255]
 
-				s.pset(x, y, [r, g, b])
+				s.pset(x, y, r<<2 | g<<1 | b)
 			}
 		}
 

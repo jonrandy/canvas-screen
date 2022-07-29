@@ -3,15 +3,18 @@ import { sinT, cosT } from 'trigTable'
 import {randomize, rnd} from 'random'
 
 
-const wd = 161, ht = 160, blue = [0, 0, 205]
+const wd = 161, ht = 160
 
 s.open({
 	width: wd,
 	height: ht,
-	background: [0, 0, 0],
+	background: 8,
 	zoom: 4,
-	autoRefresh: false
+	autoRefresh: false,
+	indexedPalette: true,
+	palette: s.PALETTES.pico8
 })
+
 
 let p, i, ang, mx, my, x, y
 
@@ -35,7 +38,7 @@ const mazeWidth = 20, mazeCellSize = 4
 			y=~~(i/mazeWidth) * mazeCellSize*2
 
 
-			s.line(x+mazeCellSize-mx, y+mazeCellSize+my, x+mazeCellSize+mx, y+mazeCellSize-my, blue)
+			s.line(x+mazeCellSize-mx, y+mazeCellSize+my, x+mazeCellSize+mx, y+mazeCellSize-my, 7)
 
 		}
 
