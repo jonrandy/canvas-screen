@@ -22,6 +22,6 @@ export function linePoints(x1, y1, x2, y2) {
 	return points
 }
 
-export function line(x1, y1, x2, y2, c, screen = undefined) {
-	linePoints(x1, y1, x2, y2).forEach(([x,y]) => pset(x, y, c, screen))
+export function line(x1, y1, x2, y2, c, {screen=undefined, useIndexedPalette=undefined} = {}) {
+	linePoints(x1, y1, x2, y2).forEach(([x,y]) => pset(x, y, c, {screen, useIndexedPalette}))
 }

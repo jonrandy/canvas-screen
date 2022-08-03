@@ -79,8 +79,9 @@ function refresh({screen=lastScreen} = {}) {
 }
 
 
-function pset(x, y, c, {screen=lastScreen} = {}) {
-	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = screen.indexedPalette ? screen.palette[c] : c
+function pset(x, y, c, {screen=lastScreen, useIndexedPalette = undefined} = {}) {
+	const usingIndexedPalette = typeof useIndexedPalette === 'undefined' ? screen.indexedPalette : useIndexedPalette
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = usingIndexedPalette ? screen.palette[c] : c
 	screen.autoRefresh && refresh(screen)
 }
 
