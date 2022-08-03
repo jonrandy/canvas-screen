@@ -1,8 +1,6 @@
 import * as s from 'canvas-screen'
 import { sinT, cosT } from 'trigTable'
-import * as rand from 'random'
 
-window.rr = rand
 
 const wd = 256, ht = 192
 
