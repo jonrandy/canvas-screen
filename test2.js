@@ -1,5 +1,6 @@
 import * as s from 'canvas-screen'
 import { sinT, cosT } from 'trigTable'
+import runWithFrameRate from './js/fps.js'
 
 
 const wd = 256, ht = 192
@@ -38,11 +39,14 @@ s.usePalette([
 	[255,255,255],
 ].map(s.rgbaValue))
 
+let keydown = false
+window.onkeydown = () => keydown = true
+
 
 
 ;(async ()=>{
 
-	for(p=0;p<1000000;p++) { 
+	runWithFrameRate(120)(()=>{
 
 		ang = (p*15) & 1023
 		ang2 = (p*1) & 1023
@@ -85,10 +89,11 @@ s.usePalette([
 		}
 
 		s.refresh()	
-		await s.vsync()
-		
+		p = (p+1) & 1023
 
-	}
+		return keydown
+
+	})
 
 })()
 
