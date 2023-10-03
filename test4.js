@@ -16,7 +16,7 @@ s.open({
 })
 
 let p = 0, q=0, stitchSize = 8
-let col = 4
+let col = 11
 
 let offset
 
@@ -28,7 +28,7 @@ window.onkeydown = () => keydown = true
 
 ;(async ()=>{
 
-	runWithFrameRate(1)(()=>{
+	runWithFrameRate(0.4)(()=>{
 
 		s.clear()
 		randomize(rnd()*1000)
