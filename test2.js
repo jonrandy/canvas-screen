@@ -46,7 +46,7 @@ window.onkeydown = () => keydown = true
 
 ;(async ()=>{
 
-	runWithFrameRate(120)(()=>{
+	runWithFrameRate(50)(()=>{
 
 		ang = (p*15) & 1023
 		ang2 = (p*1) & 1023
