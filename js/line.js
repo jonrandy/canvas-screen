@@ -1,4 +1,4 @@
-import { pset } from './main.js'
+import { pset, refresh, defaultScreen } from './main.js'
 
 export function linePoints(x1, y1, x2, y2) {
 	const
@@ -22,6 +22,7 @@ export function linePoints(x1, y1, x2, y2) {
 	return points
 }
 
-export function line(x1, y1, x2, y2, c, {screen=undefined, useIndexedPalette=undefined} = {}) {
-	linePoints(x1, y1, x2, y2).forEach(([x,y]) => pset(x, y, c, {screen, useIndexedPalette}))
+export function line(x1, y1, x2, y2, c, {screen=defaultScreen, useIndexedPalette=undefined, forceNoRefresh=false} = {}) {
+	linePoints(x1, y1, x2, y2).forEach(([x,y]) => pset(x, y, c, {screen, useIndexedPalette, forceNoRefresh: true}))
+	screen.autoRefresh && !forceNoRefresh && refresh(screen)
 }

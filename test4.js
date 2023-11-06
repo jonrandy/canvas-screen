@@ -9,7 +9,7 @@ s.open({
 	width: wd,
 	height: ht,
 	background: 1,
-	zoom: 3,
+	zoom: 4,
 	autoRefresh: false,
 	indexedPalette: true,
 	palette: s.PALETTES.pico8
@@ -28,11 +28,11 @@ window.onkeydown = () => keydown = true
 
 ;(async ()=>{
 
-	runWithFrameRate(0.4)(()=>{
+	runWithFrameRate(1)(()=>{
 
 		s.clear()
-		randomize(rnd()*1000)
 
+		randomize(rnd()*1000)
 
 		for (p=0; p<=wd-stitchSize; p+=stitchSize) {
 			offset = ~~(rnd()*2)
