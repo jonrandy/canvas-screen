@@ -20,9 +20,9 @@ export function randomizer(seed = +(new Date())) {
 
 }
 
-export let rnd = randomizer()
+export let rnd = makeRnd()
 
-export const randomize = (seed=undefined) => rnd = randomizer(seed)
+export const randomize = (seed=undefined) => rnd = makeRnd(seed)
 
 function makeMash() {
 	let n = 0xefc8249d
@@ -41,4 +41,9 @@ function makeMash() {
 		return (n >>> 0) * 2.3283064365386963e-10
 	}
 	return mash
+}
+
+function makeRnd(seed=undefined) {
+	const rand = randomizer(seed)
+	return val => val === undefined ? rand() : (rand()*(val+1))|0
 }
