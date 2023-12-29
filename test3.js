@@ -23,7 +23,7 @@ const mazeWidth = 20, mazeCellSize = 4
 
 ;(async ()=>{
 
-	runWithFrameRate(60)(()=>{
+	runWithFrameRate(120)(()=>{
 
 		s.clear()
 		randomize(0)
