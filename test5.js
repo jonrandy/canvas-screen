@@ -9,7 +9,7 @@ s.open({
 	width: wd,
 	height: ht,
 	background: 0,
-	zoom: 4,
+	zoom: 2,
 	autoRefresh: false,
 	indexedPalette: true,
 	palette: s.PALETTES.pico8
@@ -34,9 +34,9 @@ randomize(rnd()*1000)
 	runWithFrameRate(12000)(()=>{
 
 		const myPoints = [
-			[rnd(wd), rnd(ht)],
-			[rnd(wd), rnd(ht)],
-			[rnd(wd), rnd(ht)]
+			[rnd(wd-1), rnd(ht-1)],
+			[rnd(wd-1), rnd(ht-1)],
+			[rnd(wd-1), rnd(ht-1)]
 		]
 
 		s.fillPoly(myPoints, rnd(15))

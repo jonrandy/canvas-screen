@@ -1,4 +1,4 @@
-import { line, linePoints } from "./line.js"
+import { line, linePoints, hLine } from "./line.js"
 import { pset, refresh, defaultScreen } from "./main.js"
 
 export function fillPoly(points, c, { screen = defaultScreen, useIndexedPalette = undefined, forceNoRefresh = false } = {}) {
@@ -7,7 +7,7 @@ export function fillPoly(points, c, { screen = defaultScreen, useIndexedPalette 
 	const linePixels = edgePixels.reduce((lines, [x, y]) => ( (lines[y] = lines[y] || []).push(x), lines), {})
 
 	Object.entries(linePixels).forEach(([y, xs]) => {
-		line(Math.min(...xs), y, Math.max(...xs), y, c, {screen, useIndexedPalette, forceNoRefresh: true})
+		hLine(y, Math.min(...xs), Math.max(...xs), c, {screen, useIndexedPalette, forceNoRefresh: true})
 	})
 
 	screen.autoRefresh && !forceNoRefresh && refresh(screen)

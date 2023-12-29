@@ -62,10 +62,14 @@ function usePalette(palette, {screen=defaultScreen} = {}) {
 	screen.palette = palette
 }
 
-function useIndexedPalette(state, {screen=defaultScreen}) {
+function useIndexedPalette(state, {screen=defaultScreen} = {}) {
 	screen.indexedPalette = state
 }
 
+function getColour(c, {screen=defaultScreen, useIndexedPalette=undefined} = {}) {
+	const usingIndexedPalette = typeof useIndexedPalette === 'undefined' ? screen.indexedPalette : useIndexedPalette
+	return usingIndexedPalette ? screen.palette[c] : c
+}
 
 export {
 	rgbaValue,
@@ -73,5 +77,6 @@ export {
 	PALETTES,
 	palette,
 	useIndexedPalette,
-	usePalette
+	usePalette,
+	getColour,
 }

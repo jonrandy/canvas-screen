@@ -1,4 +1,5 @@
-import { pset, refresh, defaultScreen } from './main.js'
+import { pset, refresh, defaultScreen, dumpDataToPixelBuffer } from './main.js'
+import { getColour } from './colour.js'
 
 export function linePoints(x1, y1, x2, y2) {
 	const
@@ -25,4 +26,12 @@ export function linePoints(x1, y1, x2, y2) {
 export function line(x1, y1, x2, y2, c, {screen=defaultScreen, useIndexedPalette=undefined, forceNoRefresh=false} = {}) {
 	linePoints(x1, y1, x2, y2).forEach(([x,y]) => pset(x, y, c, {screen, useIndexedPalette, forceNoRefresh: true}))
 	screen.autoRefresh && !forceNoRefresh && refresh(screen)
+}
+
+export function hLine(y, x1, x2, c, {screen=defaultScreen, useIndexedPalette=undefined, forceNoRefresh=false} = {}) {
+	const wd = 1 + x2-x1,
+		cv = getColour(c, {screen, useIndexedPalette}),
+		lineData = (new Uint32Array(wd)).fill(cv),
+		offset = y*screen.width + x1
+	dumpDataToPixelBuffer(lineData, offset, {screen, forceNoRefresh})
 }

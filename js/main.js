@@ -1,4 +1,4 @@
-import { rgbaValue, rgbaSplit, PALETTES, usePalette } from './colour.js'
+import { rgbaValue, rgbaSplit, PALETTES, usePalette, getColour } from './colour.js'
 
 const
 	IS_FIREFOX = navigator.userAgent.toLowerCase().indexOf('firefox') >= 0
@@ -80,8 +80,7 @@ function refresh({screen=lastScreen} = {}) {
 
 
 function pset(x, y, c, {screen=lastScreen, useIndexedPalette = undefined, forceNoRefresh = false} = {}) {
-	const usingIndexedPalette = typeof useIndexedPalette === 'undefined' ? screen.indexedPalette : useIndexedPalette
-	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = usingIndexedPalette ? screen.palette[c] : c
+	screen.rawPageData[screen.activePage].buf32[x+y*screen.width] = getColour(c, {screen, useIndexedPalette})
 	screen.autoRefresh && !forceNoRefresh && refresh(screen)
 }
 
@@ -89,6 +88,12 @@ function pset(x, y, c, {screen=lastScreen, useIndexedPalette = undefined, forceN
 function pget(x, y, {screen=lastScreen} = {}) {
 	return screen.rawPageData[screen.activePage].buf32[x+y*screen.width]
 }
+
+function dumpDataToPixelBuffer(Uint32DataArr, offset, {screen = lastScreen, forceNoRefresh = false} = {}) {
+	pixelBuffer(screen).set(Uint32DataArr, offset)
+	screen.autoRefresh && !forceNoRefresh && refresh(screen)
+}
+
 
 
 function usePage(activePage, visiblePage = lastScreen.visiblePage, {screen=lastScreen} = {}) {
@@ -168,5 +173,6 @@ export {
 	getMouse,
 	clamp,
 	getBitBuffers,
+	dumpDataToPixelBuffer,
 	lastScreen as defaultScreen,
 }

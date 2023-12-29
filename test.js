@@ -13,10 +13,10 @@ s.open({
 
 let line = new Uint32Array(wd)
 
-const bar = [], barb=[], pi = 3.142
+const bar = new Uint32Array(8), barb=new Uint32Array(8), pi = 3.142
 for (let j=1;j<=8;j++) {
-	bar.push(s.rgbaValue([j*4, j*0, j*11]))
-	barb.push(s.rgbaValue([j*0, j*11, j*4]))
+	bar[j-1] = (s.rgbaValue([j*4, j*0, j*11]))
+	barb[j-1] = (s.rgbaValue([j*0, j*11, j*4]))
 }
 let black = s.rgbaValue([0,0,0])
 let white = [255,255,255]
@@ -45,11 +45,16 @@ let n = 0
 
 			line.set(bar, x)
 			line.set(barb, x2)
-			buffer.set(line, (wd*i))
+			s.dumpDataToPixelBuffer(line, wd*i)
 
 		}
 
 		[mx, my] = s.getMouse()
+
+		s.hLine(10, 0, 50, 1)
+		s.hLine(15, 5, 55, 4)
+		s.hLine(20, 10, 60, 15)
+
 		s.line(x, x2, mx, my, 15)
 
 		n = (n+1)%360
